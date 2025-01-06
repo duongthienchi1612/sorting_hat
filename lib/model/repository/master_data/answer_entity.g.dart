@@ -15,6 +15,7 @@ AnswerEntity _$AnswerEntityFromJson(Map<String, dynamic> json) => AnswerEntity(
       ravPoint: (json['points_ravenclaw'] as num?)?.toDouble(),
       hufPoint: (json['points_hufflepuff'] as num?)?.toDouble(),
       slyPoint: (json['points_slytherin'] as num?)?.toDouble(),
+      imagePath: json['image_path'] as String?,
     );
 
 Map<String, dynamic> _$AnswerEntityToJson(AnswerEntity instance) =>
@@ -27,4 +28,5 @@ Map<String, dynamic> _$AnswerEntityToJson(AnswerEntity instance) =>
       'points_ravenclaw': instance.ravPoint,
       'points_hufflepuff': instance.hufPoint,
       'points_slytherin': instance.slyPoint,
+      'image_path': instance.imagePath,
     };

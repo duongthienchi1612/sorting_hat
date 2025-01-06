@@ -1,167 +1,133 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:sorting_hat/constants.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    )..repeat(reverse: true);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        alignment: Alignment.center,
-        children: [
-          // Nền
-          Container(
-            decoration: const BoxDecoration(
-              gradient: RadialGradient(
-                colors: [Color(0xFF0E1621), Color(0xFF000000)], // Tông màu tối
-                radius: 1.0,
+       backgroundColor: Colors.black, 
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(image: AssetImage('assets/images/background_question.png'), fit: BoxFit.cover),
+        ),
+        child: Column(
+          children: [
+            // Title
+            const SizedBox(
+              height: 64,
+            ),
+            const Text(
+              "SORTING QUIZ",
+              style: TextStyle(
+                fontFamily: 'Cinzel',
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+                color: Color(0xFFFBE4C5),
+                shadows: [
+                  Shadow(
+                    blurRadius: 6,
+                    color: Colors.black,
+                    offset: Offset(2, 2),
+                  ),
+                ],
               ),
             ),
-          ),
-
-          // Chi tiết nền phụ: họa tiết trang trí
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            // child: Image.asset(
-            //   'assets/decorative_top.png', // Đặt file trang trí phía trên
-            //   fit: BoxFit.cover,
-            // ),
-            child: Container(),
-          ),
-
-          // Mũ
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Tiêu đề
-              const Text(
-                "SORTING",
-                style: TextStyle(
-                  fontFamily: 'Cinzel',
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFFFBE4C5),
-                  shadows: [
-                    Shadow(
-                      blurRadius: 6,
-                      color: Colors.black,
-                      offset: Offset(2, 2),
-                    ),
-                  ],
-                ),
-              ),
-
-              const SizedBox(height: 20),
-
-              // Icon Mũ
-              Container(
-                width: 200,
-                height: 200,
+            // Icon Mũ
+            Flexible(
+              flex: 4,
+              child: AnimatedBuilder(
+                  animation: _controller,
+                  builder: (context, child) {
+                    // Wobble effect
+                    double wobble = sin(_controller.value * 2 * pi) * 0.05;
+                    return Transform.rotate(
+                      angle: wobble,
+                      child: child,
+                    );
+                  },
+                  child: Image.asset(
+                    'assets/images/icon_hat.png',
+                    height: MediaQuery.of(context).size.height * 0.3, // Flexible height
+                  )),
+            ),
+            const SizedBox(height: 16),
+            // Button start
+            GestureDetector(
+              onTap: () => Navigator.pushNamed(context, '/question'),
+              child: Container(
+                margin: const EdgeInsets.symmetric(vertical: 24),
+                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 40),
                 decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  gradient: RadialGradient(
-                    colors: [
-                      Colors.blue.withOpacity(0.6),
-                      Colors.black.withOpacity(0.9),
-                    ],
-                  ),
+                  color: const Color(0xFFFBE4C5),
+                  border: Border.all(color: const Color(0xFF6E4B3A), width: 2),
+                  borderRadius: BorderRadius.circular(25),
                   boxShadow: [
                     BoxShadow(
-                      blurRadius: 15,
-                      color: Colors.blueAccent.withOpacity(0.8),
-                      spreadRadius: 5,
+                      blurRadius: 10,
+                      color: Colors.black.withOpacity(0.4),
+                      offset: const Offset(2, 4),
                     ),
                   ],
                 ),
-                child: Center(
-                  // child: Image.asset(
-                  //   'assets/sorting_hat.png', // Hình mũ
-                  //   width: 120,
-                  //   height: 120,
-                  // ),
-                  child: Container(
-                    width: 120,
-                    height: 120,
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 20),
-
-              // Text Quiz
-              const Text(
-                "QUIZ",
-                style: TextStyle(
-                  fontFamily: 'Cinzel',
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFFFBE4C5),
-                  shadows: [
-                    Shadow(
-                      blurRadius: 6,
-                      color: Colors.black,
-                      offset: Offset(2, 2),
-                    ),
-                  ],
-                ),
-              ),
-
-              GestureDetector(
-                onTap: () => Navigator.pushNamed(context, '/question'),
-                child: Container(
-                  margin: const EdgeInsets.symmetric(vertical: 24),
-                  padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 40),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFFBE4C5),
-                    border: Border.all(color: const Color(0xFF6E4B3A), width: 2),
-                    borderRadius: BorderRadius.circular(25),
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 10,
-                        color: Colors.black.withOpacity(0.4),
-                        offset: const Offset(2, 4),
+                child: const Text(
+                  "START QUIZ",
+                  style: TextStyle(
+                    fontFamily: 'Cinzel',
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF3B2C25),
+                    shadows: [
+                      Shadow(
+                        blurRadius: 4,
+                        color: Colors.black45,
+                        offset: Offset(1, 2),
                       ),
                     ],
                   ),
-                  child: const Text(
-                    "START QUIZ",
-                    style: TextStyle(
-                      fontFamily: 'Cinzel',
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF3B2C25),
-                      shadows: [
-                        Shadow(
-                          blurRadius: 4,
-                          color: Colors.black45,
-                          offset: Offset(1, 2),
-                        ),
-                      ],
-                    ),
-                  ),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Image.asset('assets/images/gry_trans.png', width: 80),
-                  Image.asset('assets/images/huf_trans.png', width: 80),
-                ],
+            ),
+            Flexible(
+              flex: 3,
+              child: GridView.builder(
+                padding: EdgeInsets.zero,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 8,
+                  // childAspectRatio: screenWidth / (screenWidth * 0.5),
+                  childAspectRatio: 1.5,
+                ),
+                itemCount: ImagePath.houses.length,
+                itemBuilder: (context, index) {
+                  return Image.asset(
+                    ImagePath.houses[index],
+                    fit: BoxFit.contain,
+                  );
+                },
               ),
-              SizedBox(height: 32),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                 
-                  Image.asset('assets/images/raven_trans.png', width: 80),
-                  Image.asset('assets/images/sly_trans.png', width: 80),
-                ],
-              )
-            ],
-          ),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -33,6 +33,9 @@ class AnswerEntity extends CoreReadEntity {
   @JsonKey(name: 'points_slytherin')
   final double? slyPoint;
 
+  @JsonKey(name: 'image_path')
+  final String? imagePath;
+
   AnswerEntity({
     this.id,
     this.questionId,
@@ -42,6 +45,7 @@ class AnswerEntity extends CoreReadEntity {
     this.ravPoint,
     this.hufPoint,
     this.slyPoint,
+    this.imagePath,
   });
 
   @override

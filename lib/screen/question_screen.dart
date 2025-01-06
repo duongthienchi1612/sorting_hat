@@ -40,9 +40,11 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                     slyPoint: e.slyPoint!),
                               ),
                               child: Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(image: AssetImage('assets/images/${e.imagePath!}'), fit: BoxFit.cover)
+                                ),
                                 alignment: Alignment.center,
-                                color: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
-                                child: Text(e.answerTextVi!),
+                                child: Text(e.answerTextVi!, style: const TextStyle(fontSize: 36, color: Colors.white,),),
                               ),
                             ),
                           ))

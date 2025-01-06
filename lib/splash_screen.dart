@@ -44,14 +44,25 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 
+  Future<void> timeSplashScreen() async {
+    await Future.wait(
+      [_initializeDependencies(), Future.delayed(const Duration(seconds: 1))],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: _initializeDependencies(),
+        future: timeSplashScreen(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Container(
-              color: Colors.purple,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/images/splash_screen.png"),
+                  fit: BoxFit.cover,
+                ),
+              ),
             );
           } else {
             WidgetsBinding.instance.addPostFrameCallback((_) {
