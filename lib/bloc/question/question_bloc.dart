@@ -1,15 +1,13 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:path/path.dart';
-import 'package:sorting_hat/business/master_data_business.dart';
-import 'package:sorting_hat/dependencies.dart';
-import 'package:sorting_hat/model/preference/user_reference.dart';
-import 'package:sorting_hat/model/question_model.dart';
-import 'package:sorting_hat/model/repository/master_data/answer_entity.dart';
-import 'package:sorting_hat/model/repository/master_data/question_entity.dart';
-import 'package:sorting_hat/repository/interface/question_repository.dart';
+import '../../business/master_data_business.dart';
+import '../../constants.dart';
+import '../../dependencies.dart';
+import '../../model/preference/user_reference.dart';
+import '../../model/question_model.dart';
+import '../../model/repository/master_data/answer_entity.dart';
+import '../../model/repository/master_data/question_entity.dart';
+import '../../repository/interface/question_repository.dart';
 
 part 'question_event.dart';
 part 'question_state.dart';
@@ -34,11 +32,16 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
     on<SelectAnswer>(_onSelectAnswer);
   }
 
-  void _onLoadData(LoadData event, Emitter<QuestionState> emit) async {
-    gryPoint = await userRef.getGryPoint() ?? 0;
-    ravPoint = await userRef.getRavPoint() ?? 0;
-    hufPoint = await userRef.getHufPoint() ?? 0;
-    slyPoint = await userRef.getSlyPoint() ?? 0;
+  Future<void> _onLoadData(LoadData event, Emitter<QuestionState> emit) async {
+    // gryPoint = await userRef.getGryPoint() ?? 0;
+    // ravPoint = await userRef.getRavPoint() ?? 0;
+    // hufPoint = await userRef.getHufPoint() ?? 0;
+    // slyPoint = await userRef.getSlyPoint() ?? 0;
+
+    gryPoint = 0;
+    ravPoint = 0;
+    hufPoint = 0;
+    slyPoint = 0;
     mQuestions = masterData.questions!;
     mAnswers = masterData.answers!;
 
@@ -47,7 +50,7 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
     emit(QuestionLoaded(data: data));
   }
 
-  void _onSelectAnswer(SelectAnswer event, Emitter<QuestionState> emit) async {
+  Future<void> _onSelectAnswer(SelectAnswer event, Emitter<QuestionState> emit) async {
     gryPoint += event.gryPoint;
     ravPoint += event.ravPoint;
     hufPoint += event.hufPoint;
@@ -79,7 +82,33 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
         yourHouse = Houses.sly;
       }
 
-      emit(QuestionLoaded(result: yourHouse));
+      emit(QuestionLoaded(imagePath: getImageResult(yourHouse), houseName: getHouseName(yourHouse)));
+    }
+  }
+
+  String getImageResult(Houses house) {
+    switch (house) {
+      case Houses.gry:
+        return ImagePath.gryImage;
+      case Houses.rav:
+        return ImagePath.ravImage;
+      case Houses.huf:
+        return ImagePath.hufImage;
+      case Houses.sly:
+        return ImagePath.slyImage;
+    }
+  }
+
+  String getHouseName(Houses house) {
+    switch (house) {
+      case Houses.gry:
+        return 'Gryffindor';
+      case Houses.rav:
+        return 'Ravenclaw';
+      case Houses.huf:
+        return 'Hufflepuff';
+      case Houses.sly:
+        return 'Slytherin';
     }
   }
 }

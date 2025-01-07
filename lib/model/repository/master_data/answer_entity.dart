@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sorting_hat/constants.dart';
-import 'package:sorting_hat/model/base/base_entity.dart';
+import '../../../constants.dart';
+import '../../base/base_entity.dart';
 
 part 'answer_entity.g.dart';
 

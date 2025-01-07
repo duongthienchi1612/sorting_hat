@@ -2,12 +2,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:sorting_hat/business/master_data_business.dart';
-import 'package:sorting_hat/dependencies.dart';
-import 'package:sorting_hat/utilities/database_factory.dart';
+import 'business/master_data_business.dart';
+import 'dependencies.dart';
+import 'utilities/database_factory.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen();
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -59,7 +59,7 @@ class _SplashScreenState extends State<SplashScreen> {
             return Container(
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage("assets/images/splash_screen.png"),
+                  image: AssetImage('assets/images/splash_screen.png'),
                   fit: BoxFit.cover,
                 ),
               ),

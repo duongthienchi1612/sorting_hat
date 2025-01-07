@@ -1,5 +1,5 @@
-import 'package:sorting_hat/model/repository/master_data/answer_entity.dart';
-import 'package:sorting_hat/model/repository/master_data/question_entity.dart';
+import 'repository/master_data/answer_entity.dart';
+import 'repository/master_data/question_entity.dart';
 
 class QuestionModel {
   final List<QuestionEntity> question;

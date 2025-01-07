@@ -1,4 +1,4 @@
-import 'package:sorting_hat/model/base/base_entity.dart';
+import '../../model/base/base_entity.dart';
 
 class IBaseReadRepository<T extends CoreReadEntity> {
   Future<T?> getById(String id) async {

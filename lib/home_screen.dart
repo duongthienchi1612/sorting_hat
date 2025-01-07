@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:sorting_hat/constants.dart';
+import 'constants.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -38,14 +38,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
             const Text(
               "SORTING QUIZ",
               style: TextStyle(
-                fontFamily: 'Cinzel',
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
                 color: Color(0xFFFBE4C5),
                 shadows: [
                   Shadow(
                     blurRadius: 6,
-                    color: Colors.black,
                     offset: Offset(2, 2),
                   ),
                 ],
@@ -58,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   animation: _controller,
                   builder: (context, child) {
                     // Wobble effect
-                    double wobble = sin(_controller.value * 2 * pi) * 0.05;
+                    final double wobble = sin(_controller.value * 2 * pi) * 0.05;
                     return Transform.rotate(
                       angle: wobble,
                       child: child,
@@ -91,7 +89,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 child: const Text(
                   "START QUIZ",
                   style: TextStyle(
-                    fontFamily: 'Cinzel',
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF3B2C25),

@@ -1,12 +1,12 @@
-import 'dart:io';
 import 'dart:developer';
+import 'dart:io';
+
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:sorting_hat/dependencies.dart';
-import 'package:sorting_hat/utilities/file_utility.dart';
 
+import '../dependencies.dart';
 import 'database_manager.dart';
+import 'file_utility.dart';
 
 class DatabaseFactory {
   final FileUtility fileUtility = injector.get<FileUtility>();
@@ -18,10 +18,10 @@ class DatabaseFactory {
 
   Future<String> initLocalDatabase() async {
     final folderPath = await fileUtility.getCommonDatabaseFolder();
-    final dbPath = join(folderPath, "master_data.db");
+    final dbPath = join(folderPath, 'master_data.db');
     log(dbPath);
 
-    bool isExist = await File(dbPath).exists();
+    final bool isExist = await File(dbPath).exists();
     if (!isExist) {
       await File(dbPath).create(recursive: true);
     }
@@ -33,7 +33,7 @@ class DatabaseFactory {
 
   Future<DatabaseManager> getMasterData() async {
     final folderPath = await fileUtility.getCommonDatabaseFolder();
-    final filePath = join(folderPath, "master_data.db");
+    final filePath = join(folderPath, 'master_data.db');
     final db = DatabaseManager(path: filePath);
     await db.open();
     return db;

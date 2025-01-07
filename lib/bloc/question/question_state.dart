@@ -9,7 +9,8 @@ final class QuestionLoading extends QuestionState {}
 
 final class QuestionLoaded extends QuestionState {
   final QuestionModel? data;
-  final Houses? result;
+  final String? imagePath;
+  final String? houseName;
 
-  QuestionLoaded({this.data, this.result});
+  QuestionLoaded({this.data, this.imagePath, this.houseName});
 }

@@ -1,12 +1,12 @@
 import 'package:get_it/get_it.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:sorting_hat/bloc/bloc_dependencies.dart';
-import 'package:sorting_hat/business/business_dependencies.dart';
-import 'package:sorting_hat/business/master_data_business.dart';
-import 'package:sorting_hat/model/model_dependencies.dart';
-import 'package:sorting_hat/model/preference/user_reference.dart';
-import 'package:sorting_hat/repository/repository_dependencies.dart';
-import 'package:sorting_hat/screen/screen_dependencies.dart';
+import 'bloc/bloc_dependencies.dart';
+import 'business/business_dependencies.dart';
+import 'business/master_data_business.dart';
+import 'model/model_dependencies.dart';
+import 'model/preference/user_reference.dart';
+import 'repository/repository_dependencies.dart';
+import 'screen/screen_dependencies.dart';
 
 import 'utilities/database_factory.dart';
 import 'utilities/file_utility.dart';

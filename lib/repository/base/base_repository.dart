@@ -1,9 +1,9 @@
 import 'package:basic_utils/basic_utils.dart';
-import 'package:sorting_hat/model/base/base_entity.dart';
-import 'package:sorting_hat/repository/base/interface.dart';
 
 import '../../dependencies.dart';
+import '../../model/base/base_entity.dart';
 import '../../utilities/database_factory.dart';
+import 'interface.dart';
 
 abstract class BaseReadRepository<T extends CoreReadEntity> implements IBaseReadRepository<T> {
   final dbFactory = injector.get<DatabaseFactory>();
@@ -13,43 +13,43 @@ abstract class BaseReadRepository<T extends CoreReadEntity> implements IBaseRead
   @override
   Future<T?> getById(String? id) async {
     if (StringUtils.isNullOrEmpty(id)) return null;
-    var condition = "Id = '$id'";
-    var items = await list(condition, null, null, null, null);
+    final condition = "Id = '$id'";
+    final items = await list(condition, null, null, null, null);
     return items.isEmpty ? null : items[0];
   }
 
   @override
   Future<List<T>?> listAll() async {
-    return await list(null, null, null, null, null, []);
+    return list(null, null, null, null, null, []);
   }
 
   @override
   Future<List<T>> list(String? where, String? orderBy, bool? asc, int? pageIndex, int? pageSize,
       [final List<String> args = const <String>[]]) async {
-    return await listSelected(null, where, orderBy, asc, pageIndex, pageSize, args);
+    return listSelected(null, where, orderBy, asc, pageIndex, pageSize, args);
   }
 
   Future<List<T>> listSelected(String? columns, String? where, String? orderBy, bool? asc, int? pageIndex, int? pageSize,
       [final List<String> args = const <String>[]]) async {
-    var item = injector.get<T>();
-    var selected = StringUtils.isNullOrEmpty(columns) ? "*" : columns;
-    var query = "select $selected from ${item.table} ";
+    final item = injector.get<T>();
+    final selected = StringUtils.isNullOrEmpty(columns) ? '*' : columns;
+    var query = 'select $selected from ${item.table} ';
 
     if (where != null) {
-      query += "where $where ";
+      query += 'where $where ';
     }
 
     if (orderBy != null) {
-      var direction = asc == true ? "ASC" : "DESC";
-      query += "order by $orderBy $direction ";
+      final direction = asc == true ? 'ASC' : 'DESC';
+      query += 'order by $orderBy $direction ';
     }
 
     if (pageIndex != null && pageSize != null) {
-      var skip = (pageIndex - 1) * pageSize;
-      var limit = pageSize;
-      query += "LIMIT $limit OFFSET $skip ";
+      final skip = (pageIndex - 1) * pageSize;
+      final limit = pageSize;
+      query += 'LIMIT $limit OFFSET $skip ';
     }
-    return await listRaw(query, item.fromJsonConvert, args);
+    return listRaw(query, item.fromJsonConvert, args);
   }
 
   @override
@@ -60,7 +60,7 @@ abstract class BaseReadRepository<T extends CoreReadEntity> implements IBaseRead
       ) mapper,
       [final List<String> args = const <String>[]]) async {
     final database = await dbFactory.getMasterData();
-    var list = await database.list(query, args);
+    final list = await database.list(query, args);
     return list.map((f) => mapper(f)).toList();
   }
 }

@@ -1,5 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sorting_hat/constants.dart';
+import '../../constants.dart';
 
 class UserReference {
   // get
