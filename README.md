@@ -6,16 +6,16 @@ The application allows answer quiz questions to be sorted into one of the Hogwar
 
 Home Screen
 
-<img src="https://github.com/user-attachments/assets/7d178f19-4a41-4248-bf59-a78a185ad552" alt="HomeScreen" width="300">
-
+<img src="https://github.com/user-attachments/assets/81f92023-15d7-4b9b-97b6-dad839315606" alt="HomeScreen" width="300">
 
 Question Screen
 
-<img src="https://github.com/user-attachments/assets/a739af0f-ef7e-4195-9360-bffc365758a1" alt="Question Screen 1" width="300">
+<img src="https://github.com/user-attachments/assets/de9335f7-b85b-47fe-af35-dfea386ea7e8" alt="Question Screen 1" width="300">
 
-<img src="https://github.com/user-attachments/assets/f3b0cb14-601d-456d-b253-ac1d2cabd969" alt="Question Screen 2" width="300">
+<img src="https://github.com/user-attachments/assets/eb9cb122-19cb-4d11-ab0f-756a255812a7" alt="Question Screen 2" width="300">
 
 
 Result Screen
 
-<img src="https://github.com/user-attachments/assets/768cbe62-ee9d-46c6-8ffd-6e61d4cbc5d4" alt="Result Screen" width="300">
+
+<img src="https://github.com/user-attachments/assets/99c96b5c-5cd4-4aff-a046-76ca6274f28e" alt="Result Screen" width="300">
