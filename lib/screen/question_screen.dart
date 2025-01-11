@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/question/question_bloc.dart';
@@ -21,11 +22,22 @@ class _QuestionScreenState extends State<QuestionScreen> {
     return BlocProvider(
       create: (context) => _bloc..add(LoadData()),
       child: Scaffold(
-        body: BlocBuilder<QuestionBloc, QuestionState>(
+        body: BlocConsumer<QuestionBloc, QuestionState>(
+          listener: (context, state) {
+            if (state is QuestionLoaded) {
+              if (StringUtils.isNotNullOrEmpty(state.houseName)) {
+                Navigator.popAndPushNamed(
+                  context,
+                  ScreenName.result,
+                  arguments: state.houseName,
+                );
+              }
+            }
+          },
           builder: (context, state) {
             if (state is QuestionLoaded) {
               if (state.data != null) {
-                final question = state.data!.question[state.data!.currentQuestionId];
+                final question = state.data!.question;
                 if (question.type == QuestionType.alternative) {
                   return Column(
                     children: [
@@ -33,7 +45,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                             child: GestureDetector(
                               onTap: () => _bloc.add(
                                 SelectAnswer(
-                                    lastQuestionCode: state.data!.currentQuestionId,
+                                    currentQuestionId: state.data!.currentQuestionId,
                                     gryPoint: e.gryPoint!,
                                     ravPoint: e.ravPoint!,
                                     hufPoint: e.hufPoint!,
@@ -46,9 +58,17 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                 alignment: Alignment.center,
                                 child: Text(
                                   e.answerTextVi!,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 36,
-                                    color: Colors.white,
+                                    fontFamily: 'Caudex',
+                                    color: const Color(0xFFFBE4C5),
+                                    shadows: const [
+                                      Shadow(
+                                        blurRadius: 10,
+                                        color: Colors.black45,
+                                        offset: Offset(1, 2),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
@@ -59,7 +79,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                 }
                 return Container(
                   decoration: BoxDecoration(
-                    image: DecorationImage(image: AssetImage('assets/images/background_question.png'), fit: BoxFit.cover),
+                    image: DecorationImage(image: AssetImage(ImagePath.background_question), fit: BoxFit.cover),
                   ),
                   alignment: Alignment.center,
                   padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 80),
@@ -67,8 +87,12 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        '${state.data!.currentQuestionId.toString()} / ${state.data!.question.length}',
-                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                        '${state.data!.currentQuestionId.toString()} / ${state.data!.totalQuestion}',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Caudex',
+                        ),
                       ),
                       const SizedBox(height: 4),
                       Text(
@@ -76,6 +100,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 22,
+                          fontFamily: 'Caudex',
                           fontWeight: FontWeight.bold,
                           color: Color(0xFFFBE4C5),
                           shadows: const [
@@ -97,7 +122,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                               (e) => GestureDetector(
                                 onTap: () => _bloc.add(
                                   SelectAnswer(
-                                      lastQuestionCode: state.data!.currentQuestionId,
+                                      currentQuestionId: state.data!.currentQuestionId,
                                       gryPoint: e.gryPoint!,
                                       ravPoint: e.ravPoint!,
                                       hufPoint: e.hufPoint!,
@@ -122,7 +147,10 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                   child: Text(
                                     e.answerTextVi!,
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: 16),
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontFamily: 'Caudex',
+                                    ),
                                   ),
                                 ),
                               ),
@@ -134,40 +162,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                   ),
                 );
               }
-              return Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(image: AssetImage('assets/images/background_result.png'), fit: BoxFit.cover),
-                  ),
-                  padding: EdgeInsets.symmetric(vertical: 40),
-                  alignment: Alignment.center,
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: IconButton(
-                          onPressed: () => Navigator.popUntil(context, ModalRoute.withName('/home')),
-                          icon: Icon(
-                            Icons.home,
-                            size: 40,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                      Spacer(),
-                      Image.asset(state.imagePath!),
-                      Spacer(),
-                      Text(
-                        'Your house is \n ${state.houseName}',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFFFBE4C5),
-                        ),
-                      ),
-                      Spacer(),
-                    ],
-                  ));
+              return Container();
             }
             return Container();
           },

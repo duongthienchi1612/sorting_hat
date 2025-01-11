@@ -24,10 +24,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       backgroundColor: Colors.black, 
+      backgroundColor: Colors.black,
       body: Container(
         decoration: const BoxDecoration(
-          image: DecorationImage(image: AssetImage('assets/images/background_question.png'), fit: BoxFit.cover),
+          image: DecorationImage(image: AssetImage(ImagePath.background_question), fit: BoxFit.cover),
         ),
         child: Column(
           children: [
@@ -36,9 +36,10 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
               height: 64,
             ),
             const Text(
-              "SORTING QUIZ",
+              'SORTING QUIZ',
               style: TextStyle(
                 fontSize: 32,
+                fontFamily: 'Caudex',
                 fontWeight: FontWeight.bold,
                 color: Color(0xFFFBE4C5),
                 shadows: [
@@ -63,14 +64,14 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                     );
                   },
                   child: Image.asset(
-                    'assets/images/icon_hat.png',
+                    ImagePath.icon_hat,
                     height: MediaQuery.of(context).size.height * 0.3, // Flexible height
                   )),
             ),
             const SizedBox(height: 16),
             // Button start
             GestureDetector(
-              onTap: () => Navigator.pushNamed(context, '/question'),
+              onTap: () => Navigator.pushNamed(context, ScreenName.question),
               child: Container(
                 margin: const EdgeInsets.symmetric(vertical: 24),
                 padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 40),
@@ -86,11 +87,12 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                     ),
                   ],
                 ),
-                child: const Text(
-                  "START QUIZ",
-                  style: TextStyle(
+                child: Text(
+                  'START QUIZ',
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
+                    fontFamily: 'Caudex',
                     color: Color(0xFF3B2C25),
                     shadows: [
                       Shadow(
@@ -111,7 +113,6 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   mainAxisSpacing: 8,
-                  // childAspectRatio: screenWidth / (screenWidth * 0.5),
                   childAspectRatio: 1.5,
                 ),
                 itemCount: ImagePath.houses.length,

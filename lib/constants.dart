@@ -12,6 +12,9 @@ class PreferenceKey {
   static const ravPoint = 'RAV_POINT';
   static const hufPoint = 'HUF_POINT';
   static const slyPoint = 'SLY_POINT';
+  static const currentQuestion = 'CURRENT_QUESTION';
+  static const statusQuiz = 'STATUS_QUIZ';
+  static const houseResult = 'HOUSE_RESULT';
 }
 
 class ImagePath {
@@ -19,6 +22,39 @@ class ImagePath {
   static const ravImage = 'assets/images/rav_trans.png';
   static const hufImage = 'assets/images/huf_trans.png';
   static const slyImage = 'assets/images/sly_trans.png';
+  static const background_question = 'assets/images/background_question.png';
+  static const background_result = 'assets/images/background_result.png';
+  static const splash_screen = 'assets/images/splash_screen.png';
+  static const icon_hat = 'assets/images/icon_hat.png';
 
   static const houses = [gryImage, ravImage, hufImage, slyImage];
+
+  static const allImage = [
+    gryImage,
+    ravImage,
+    hufImage,
+    slyImage,
+    background_question,
+    background_result,
+    splash_screen,
+    icon_hat
+  ];
+}
+
+class StatusQuiz {
+  static const done = 'DONE';
+  static const inProgress = 'INPROGRESS';
+}
+
+class HouseName {
+  static const gryffindor = 'Gryffindor';
+  static const ravenclaw = 'Ravenclaw';
+  static const hufflepuff = 'Hufflepuff';
+  static const slytherin = 'Slytherin';
+}
+
+class ScreenName {
+  static const home = '/home';
+  static const result = '/result';
+  static const question = '/question';
 }

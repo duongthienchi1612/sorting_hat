@@ -1,9 +1,12 @@
 import 'dart:io';
 
+import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'business/master_data_business.dart';
+import 'constants.dart';
 import 'dependencies.dart';
+import 'model/preference/user_reference.dart';
 import 'utilities/database_factory.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -14,6 +17,9 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  late String statusQuiz;
+  late String houseResult;
+
   @override
   void initState() {
     super.initState();
@@ -37,7 +43,30 @@ class _SplashScreenState extends State<SplashScreen> {
       final databaseFactory = injector.get<DatabaseFactory>();
       await databaseFactory.initDatabase();
 
-      await injector.get<MasterDataBusiness>().init();
+      final masterData = injector.get<MasterDataBusiness>();
+      await masterData.init();
+
+      for (final e in masterData.answers!) {
+        if (StringUtils.isNotNullOrEmpty(e.imagePath)) {
+          await precacheImage(AssetImage('assets/images/${e.imagePath!}'), context);
+        }
+      }
+      for (final e in ImagePath.allImage) {
+        await precacheImage(AssetImage(e), context);
+      }
+
+      // get reference data;
+      final userRef = injector.get<UserReference>();
+      statusQuiz = await userRef.getStatusQuiz() ?? StatusQuiz.inProgress;
+      houseResult = await userRef.getHouseResult() ?? '';
+
+      // CHEAT DATA FOR TESTING
+      await userRef.setGryPoint(0);
+      await userRef.setRavPoint(0);
+      await userRef.setHufPoint(0);
+      await userRef.setSlyPoint(0);
+      await userRef.setCurrentQuestion(1);
+      await userRef.setStatusQuiz(StatusQuiz.inProgress);
     } else {
       await openAppSettings();
       exit(0);
@@ -59,14 +88,18 @@ class _SplashScreenState extends State<SplashScreen> {
             return Container(
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/images/splash_screen.png'),
+                  image: AssetImage(ImagePath.splash_screen),
                   fit: BoxFit.cover,
                 ),
               ),
             );
           } else {
             WidgetsBinding.instance.addPostFrameCallback((_) {
-              Navigator.pushReplacementNamed(context, '/home');
+              if (statusQuiz == StatusQuiz.inProgress) {
+                Navigator.pushReplacementNamed(context, ScreenName.home);
+              } else {
+                Navigator.pushReplacementNamed(context, ScreenName.result, arguments: houseResult);
+              }
             });
             return Container();
           }

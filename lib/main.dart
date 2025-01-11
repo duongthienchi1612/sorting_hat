@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sorting_hat/screen/question_screen.dart';
 
+import 'constants.dart';
 import 'home_screen.dart';
+import 'screen/question_screen.dart';
+import 'screen/result_screen.dart';
 import 'splash_screen.dart';
 
 void main() {
@@ -22,11 +24,10 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => const SplashScreen(),
-        '/home': (context) => const HomeScreen(),
-        '/question': (context) => const QuestionScreen(),
-        '/result': (context) => const HomeScreen(),
+        ScreenName.home: (context) => const HomeScreen(),
+        ScreenName.question: (context) => const QuestionScreen(),
+        ScreenName.result: (context) => const ResultScreen(),
       },
-      // home: HomeScreen(),
     );
   }
 }

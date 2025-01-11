@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../business/master_data_business.dart';
@@ -11,8 +12,6 @@ import '../../repository/interface/question_repository.dart';
 
 part 'question_event.dart';
 part 'question_state.dart';
-
-enum Houses { gry, rav, huf, sly }
 
 class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
   final masterData = injector.get<MasterDataBusiness>();
@@ -33,20 +32,26 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
   }
 
   Future<void> _onLoadData(LoadData event, Emitter<QuestionState> emit) async {
-    // gryPoint = await userRef.getGryPoint() ?? 0;
-    // ravPoint = await userRef.getRavPoint() ?? 0;
-    // hufPoint = await userRef.getHufPoint() ?? 0;
-    // slyPoint = await userRef.getSlyPoint() ?? 0;
-
-    gryPoint = 0;
-    ravPoint = 0;
-    hufPoint = 0;
-    slyPoint = 0;
+    final currentQuestionId = await userRef.getCurrentQuestion() ?? 1;
     mQuestions = masterData.questions!;
     mAnswers = masterData.answers!;
-
-    final answers = mAnswers.where((e) => e.questionId == mQuestions[1].id).toList();
-    final data = QuestionModel(currentQuestionId: 1, question: mQuestions, answers: answers);
+    late List<AnswerEntity> answers;
+    late QuestionEntity question;
+    if (currentQuestionId > 1) {
+      gryPoint = await userRef.getGryPoint() ?? 0;
+      ravPoint = await userRef.getRavPoint() ?? 0;
+      hufPoint = await userRef.getHufPoint() ?? 0;
+      slyPoint = await userRef.getSlyPoint() ?? 0;
+    } else {
+      gryPoint = 0;
+      ravPoint = 0;
+      hufPoint = 0;
+      slyPoint = 0;
+    }
+    question = mQuestions.firstWhereOrNull((e) => e.id == currentQuestionId)!;
+    answers = mAnswers.where((e) => e.questionId == question.id).toList();
+    final data = QuestionModel(
+        currentQuestionId: currentQuestionId, question: question, answers: answers, totalQuestion: mQuestions.length);
     emit(QuestionLoaded(data: data));
   }
 
@@ -61,54 +66,34 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
     await userRef.setRavPoint(ravPoint);
     await userRef.setHufPoint(hufPoint);
     await userRef.setSlyPoint(slyPoint);
+    await userRef.setCurrentQuestion(event.currentQuestionId + 1);
 
-    if (event.lastQuestionCode + 1 < mQuestions.length) {
-      final answers = mAnswers.where((e) => e.questionId == mQuestions[event.lastQuestionCode + 1].id).toList();
-      final data = QuestionModel(currentQuestionId: event.lastQuestionCode + 1, question: mQuestions, answers: answers);
+    if (event.currentQuestionId + 1 < mQuestions.length) {
+      final question = mQuestions.firstWhereOrNull((e) => e.id == event.currentQuestionId + 1)!;
+      final answers = mAnswers.where((e) => e.questionId == question.id).toList();
+      final data = QuestionModel(
+          currentQuestionId: event.currentQuestionId + 1, question: question, answers: answers, totalQuestion: mQuestions.length);
       emit(QuestionLoaded(data: data));
     } else {
       double maxValue = gryPoint;
-      Houses yourHouse = Houses.gry;
+      String yourHouse = HouseName.gryffindor;
       if (ravPoint > maxValue) {
         maxValue = ravPoint;
-        yourHouse = Houses.rav;
+        yourHouse = HouseName.ravenclaw;
       }
       if (hufPoint > maxValue) {
         maxValue = hufPoint;
-        yourHouse = Houses.huf;
+        yourHouse = HouseName.hufflepuff;
       }
       if (slyPoint > maxValue) {
         maxValue = slyPoint;
-        yourHouse = Houses.sly;
+        yourHouse = HouseName.slytherin;
       }
 
-      emit(QuestionLoaded(imagePath: getImageResult(yourHouse), houseName: getHouseName(yourHouse)));
-    }
-  }
+      await userRef.setStatusQuiz(StatusQuiz.done);
+      await userRef.setHouseResult(yourHouse);
 
-  String getImageResult(Houses house) {
-    switch (house) {
-      case Houses.gry:
-        return ImagePath.gryImage;
-      case Houses.rav:
-        return ImagePath.ravImage;
-      case Houses.huf:
-        return ImagePath.hufImage;
-      case Houses.sly:
-        return ImagePath.slyImage;
-    }
-  }
-
-  String getHouseName(Houses house) {
-    switch (house) {
-      case Houses.gry:
-        return 'Gryffindor';
-      case Houses.rav:
-        return 'Ravenclaw';
-      case Houses.huf:
-        return 'Hufflepuff';
-      case Houses.sly:
-        return 'Slytherin';
+      emit(QuestionLoaded(houseName: yourHouse));
     }
   }
 }
