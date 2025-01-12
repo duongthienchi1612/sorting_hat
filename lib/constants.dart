@@ -58,3 +58,24 @@ class ScreenName {
   static const result = '/result';
   static const question = '/question';
 }
+
+// text 
+/*
+  Gryffindor:
+"Courage, bravery, nerve, and chivalry."
+(Dũng cảm, can đảm, dũng khí và lòng nghĩa hiệp.)
+
+Hufflepuff:
+"Hard work, patience, justice, and loyalty."
+(Chăm chỉ, kiên nhẫn, công bằng và trung thành.)
+
+Ravenclaw:
+"Wisdom, wit, and learning."
+(Sự khôn ngoan, trí tuệ và học thức.)
+
+Slytherin:
+"Ambition, cunning, leadership, and resourcefulness."
+(Tham vọng, xảo quyệt, khả năng lãnh đạo và sự khéo léo.)
+
+
+ */

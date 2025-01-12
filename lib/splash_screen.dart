@@ -51,9 +51,9 @@ class _SplashScreenState extends State<SplashScreen> {
           await precacheImage(AssetImage('assets/images/${e.imagePath!}'), context);
         }
       }
-      for (final e in ImagePath.allImage) {
-        await precacheImage(AssetImage(e), context);
-      }
+      // for (final e in ImagePath.allImage) {
+      //   await precacheImage(AssetImage(e), context);
+      // }
 
       // get reference data;
       final userRef = injector.get<UserReference>();

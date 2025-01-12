@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/question/question_bloc.dart';
 import '../constants.dart';
 import '../dependencies.dart';
+import '../theme/app_colors.dart';
 
 class QuestionScreen extends StatefulWidget {
   const QuestionScreen({super.key});
@@ -19,6 +20,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return BlocProvider(
       create: (context) => _bloc..add(LoadData()),
       child: Scaffold(
@@ -26,9 +28,10 @@ class _QuestionScreenState extends State<QuestionScreen> {
           listener: (context, state) {
             if (state is QuestionLoaded) {
               if (StringUtils.isNotNullOrEmpty(state.houseName)) {
-                Navigator.popAndPushNamed(
+                Navigator.pushNamedAndRemoveUntil(
                   context,
                   ScreenName.result,
+                  (route) => false,
                   arguments: state.houseName,
                 );
               }
@@ -38,6 +41,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
             if (state is QuestionLoaded) {
               if (state.data != null) {
                 final question = state.data!.question;
+                // Question with 2 option
                 if (question.type == QuestionType.alternative) {
                   return Column(
                     children: [
@@ -53,20 +57,28 @@ class _QuestionScreenState extends State<QuestionScreen> {
                               ),
                               child: Container(
                                 decoration: BoxDecoration(
-                                    image:
-                                        DecorationImage(image: AssetImage('assets/images/${e.imagePath!}'), fit: BoxFit.cover)),
+                                  color: Colors.black,
+                                  image: DecorationImage(
+                                    image: AssetImage('assets/images/${e.imagePath!}'),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                                 alignment: Alignment.center,
                                 child: Text(
                                   e.answerTextVi!,
-                                  style: TextStyle(
-                                    fontSize: 36,
-                                    fontFamily: 'Caudex',
-                                    color: const Color(0xFFFBE4C5),
-                                    shadows: const [
+                                  style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                                    shadows: [
                                       Shadow(
-                                        blurRadius: 10,
-                                        color: Colors.black45,
-                                        offset: Offset(1, 2),
+                                        offset: Offset(-1.5, -1.5),
+                                      ),
+                                      Shadow(
+                                        offset: Offset(1.5, -1.5),
+                                      ),
+                                      Shadow(
+                                        offset: Offset(1.5, 1.5),
+                                      ),
+                                      Shadow(
+                                        offset: Offset(-1.5, 1.5),
                                       ),
                                     ],
                                   ),
@@ -77,6 +89,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     ],
                   );
                 }
+                // Question with multiple option
                 return Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(image: AssetImage(ImagePath.background_question), fit: BoxFit.cover),
@@ -88,21 +101,14 @@ class _QuestionScreenState extends State<QuestionScreen> {
                     children: [
                       Text(
                         '${state.data!.currentQuestionId.toString()} / ${state.data!.totalQuestion}',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Caudex',
-                        ),
+                        style: textTheme.bodySmall,
                       ),
                       const SizedBox(height: 4),
                       Text(
                         question.questionTextVi!,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontFamily: 'Caudex',
+                        style: textTheme.bodyLarge!.copyWith(
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFFFBE4C5),
                           shadows: const [
                             Shadow(
                               blurRadius: 6,
@@ -133,7 +139,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                   margin: const EdgeInsets.symmetric(vertical: 12),
                                   padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
                                   decoration: BoxDecoration(
-                                    color: const Color(0xFFFBE4C5),
+                                    color: AppColors.mainColor,
                                     border: Border.all(color: const Color(0xFF6E4B3A), width: 2),
                                     borderRadius: BorderRadius.circular(25),
                                     boxShadow: [
@@ -147,10 +153,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                   child: Text(
                                     e.answerTextVi!,
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontFamily: 'Caudex',
-                                    ),
+                                    style: textTheme.bodyMedium,
                                   ),
                                 ),
                               ),

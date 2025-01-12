@@ -1,9 +1,14 @@
 import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'constants.dart';
+import 'theme/app_colors.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final Function(String) changeLanguage;
+  const HomeScreen({Key? key, required this.changeLanguage}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -22,7 +27,15 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final localizations = AppLocalizations.of(context)!;
     return Scaffold(
       backgroundColor: Colors.black,
       body: Container(
@@ -31,17 +44,69 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
         ),
         child: Column(
           children: [
-            // Title
-            const SizedBox(
-              height: 64,
+            const SizedBox(height: 54),
+            Align(
+              alignment: Alignment.topRight,
+              child: SizedBox(
+                height: 18,
+                child: IconButton(
+                    padding: EdgeInsets.only(right: 16),
+                    iconSize: 24,
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (ctx) {
+                          return Dialog(
+                            backgroundColor: AppColors.mainColor,
+                            child: SizedBox(
+                              height: 120,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  SizedBox(
+                                    height: 50,
+                                    child: TextButton(
+                                      onPressed: () {
+                                        widget.changeLanguage('en');
+                                        Navigator.pop(ctx);
+                                      },
+                                      child: Text(
+                                        'English',
+                                        style: textTheme.bodyMedium!.copyWith(color: Colors.black),
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 50,
+                                    child: TextButton(
+                                      onPressed: () {
+                                        widget.changeLanguage('vi');
+                                        Navigator.pop(ctx);
+                                      },
+                                      child: Text(
+                                        'Vietnames',
+                                        style: textTheme.bodyMedium!.copyWith(color: Colors.black),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    icon: Icon(
+                      Icons.settings,
+                      color: Colors.white,
+                    )),
+              ),
             ),
-            const Text(
-              'SORTING QUIZ',
-              style: TextStyle(
-                fontSize: 32,
-                fontFamily: 'Caudex',
+            Text(
+              localizations.appTitle,
+              style: textTheme.displayLarge!.copyWith(
                 fontWeight: FontWeight.bold,
-                color: Color(0xFFFBE4C5),
                 shadows: [
                   Shadow(
                     blurRadius: 6,
@@ -76,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                 margin: const EdgeInsets.symmetric(vertical: 24),
                 padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 40),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFFBE4C5),
+                  color: AppColors.mainColor,
                   border: Border.all(color: const Color(0xFF6E4B3A), width: 2),
                   borderRadius: BorderRadius.circular(25),
                   boxShadow: [
@@ -88,12 +153,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                   ],
                 ),
                 child: Text(
-                  'START QUIZ',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Caudex',
-                    color: Color(0xFF3B2C25),
+                  localizations.startQuiz,
+                  style: textTheme.labelLarge!.copyWith(
                     shadows: [
                       Shadow(
                         blurRadius: 4,
