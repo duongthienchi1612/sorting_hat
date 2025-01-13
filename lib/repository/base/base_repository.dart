@@ -12,7 +12,9 @@ abstract class BaseReadRepository<T extends CoreReadEntity> implements IBaseRead
 
   @override
   Future<T?> getById(String? id) async {
-    if (StringUtils.isNullOrEmpty(id)) return null;
+    if (StringUtils.isNullOrEmpty(id)) {
+      return null;
+    }
     final condition = "Id = '$id'";
     final items = await list(condition, null, null, null, null);
     return items.isEmpty ? null : items[0];

@@ -15,6 +15,7 @@ class PreferenceKey {
   static const currentQuestion = 'CURRENT_QUESTION';
   static const statusQuiz = 'STATUS_QUIZ';
   static const houseResult = 'HOUSE_RESULT';
+  static const language = 'LANGUAGE';
 }
 
 class ImagePath {

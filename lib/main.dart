@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'constants.dart';
-import 'dependencies.dart';
 import 'home_screen.dart';
 import 'model/preference/user_reference.dart';
 import 'screen/question_screen.dart';
@@ -10,21 +9,27 @@ import 'screen/result_screen.dart';
 import 'splash_screen.dart';
 import 'theme/app_text_theme.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
+  runApp(MyApp(initialLanguage: await UserReference().getLanguage() ?? 'en'));
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  final String initialLanguage;
+  const MyApp({super.key, required this.initialLanguage});
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  Locale _locale = Locale('vi');
-  // final userRef = injector.get<UserReference>();
+  late Locale _locale;
+
+  @override
+  void initState() {
+    super.initState();
+    _locale = Locale(widget.initialLanguage);
+  }
 
   void _changeLanguage(String languageCode) {
     setState(() {

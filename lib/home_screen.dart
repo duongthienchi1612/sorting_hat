@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'constants.dart';
+import 'dependencies.dart';
+import 'model/preference/user_reference.dart';
 import 'theme/app_colors.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,6 +18,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
+  final _userRef = injector.get<UserReference>();
+
   @override
   void initState() {
     super.initState();
@@ -67,7 +71,8 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                   SizedBox(
                                     height: 50,
                                     child: TextButton(
-                                      onPressed: () {
+                                      onPressed: () async {
+                                        await _userRef.setLanguage('en');
                                         widget.changeLanguage('en');
                                         Navigator.pop(ctx);
                                       },
@@ -80,12 +85,13 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                                   SizedBox(
                                     height: 50,
                                     child: TextButton(
-                                      onPressed: () {
+                                      onPressed: () async {
+                                        await _userRef.setLanguage('vi');
                                         widget.changeLanguage('vi');
                                         Navigator.pop(ctx);
                                       },
                                       child: Text(
-                                        'Vietnames',
+                                        'Vietnamese',
                                         style: textTheme.bodyMedium!.copyWith(color: Colors.black),
                                       ),
                                     ),

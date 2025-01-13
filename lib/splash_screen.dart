@@ -51,9 +51,6 @@ class _SplashScreenState extends State<SplashScreen> {
           await precacheImage(AssetImage('assets/images/${e.imagePath!}'), context);
         }
       }
-      // for (final e in ImagePath.allImage) {
-      //   await precacheImage(AssetImage(e), context);
-      // }
 
       // get reference data;
       final userRef = injector.get<UserReference>();
@@ -61,12 +58,12 @@ class _SplashScreenState extends State<SplashScreen> {
       houseResult = await userRef.getHouseResult() ?? '';
 
       // CHEAT DATA FOR TESTING
-      await userRef.setGryPoint(0);
-      await userRef.setRavPoint(0);
-      await userRef.setHufPoint(0);
-      await userRef.setSlyPoint(0);
-      await userRef.setCurrentQuestion(1);
-      await userRef.setStatusQuiz(StatusQuiz.inProgress);
+      // await userRef.setGryPoint(0);
+      // await userRef.setRavPoint(0);
+      // await userRef.setHufPoint(0);
+      // await userRef.setSlyPoint(0);
+      // await userRef.setCurrentQuestion(1);
+      // await userRef.setStatusQuiz(StatusQuiz.inProgress);
     } else {
       await openAppSettings();
       exit(0);

@@ -2,7 +2,6 @@ import 'package:get_it/get_it.dart';
 import 'package:path_provider/path_provider.dart';
 import 'bloc/bloc_dependencies.dart';
 import 'business/business_dependencies.dart';
-import 'business/master_data_business.dart';
 import 'model/model_dependencies.dart';
 import 'model/preference/user_reference.dart';
 import 'repository/repository_dependencies.dart';

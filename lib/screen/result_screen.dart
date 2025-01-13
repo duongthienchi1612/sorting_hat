@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../constants.dart';
 import '../dependencies.dart';
 import '../model/preference/user_reference.dart';
 import '../theme/app_colors.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ResultScreen extends StatefulWidget {
   const ResultScreen({super.key});

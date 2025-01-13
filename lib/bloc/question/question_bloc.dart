@@ -1,13 +1,16 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../business/master_data_business.dart';
 import '../../constants.dart';
 import '../../dependencies.dart';
 import '../../model/preference/user_reference.dart';
-import '../../model/question_model.dart';
 import '../../model/repository/master_data/answer_entity.dart';
 import '../../model/repository/master_data/question_entity.dart';
+import '../../model/view_model/answer_model.dart';
+import '../../model/view_model/question_model.dart';
+import '../../model/view_model/question_view_model.dart';
 import '../../repository/interface/question_repository.dart';
 
 part 'question_event.dart';
@@ -23,8 +26,10 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
   double hufPoint = 0;
   double slyPoint = 0;
 
-  late List<QuestionEntity> mQuestions;
-  late List<AnswerEntity> mAnswers;
+  late List<QuestionEntity> mQuestionsEntity;
+  late List<AnswerEntity> mAnswersEntity;
+  List<QuestionModel> mQuestions = [];
+  List<AnswerModel> mAnswers = [];
 
   QuestionBloc() : super(QuestionInitial()) {
     on<LoadData>(_onLoadData);
@@ -33,10 +38,32 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
 
   Future<void> _onLoadData(LoadData event, Emitter<QuestionState> emit) async {
     final currentQuestionId = await userRef.getCurrentQuestion() ?? 1;
-    mQuestions = masterData.questions!;
-    mAnswers = masterData.answers!;
-    late List<AnswerEntity> answers;
-    late QuestionEntity question;
+    final language = await userRef.getLanguage() ?? 'en';
+    mQuestionsEntity = masterData.questions!;
+    mAnswersEntity = masterData.answers!;
+
+    for (final element in mQuestionsEntity) {
+      final model = QuestionModel()
+        ..id = element.id
+        ..questionText = language == 'en' ? element.questionTextEn : element.questionTextVi
+        ..imagePath = element.imagePath
+        ..type = element.type;
+      mQuestions.add(model);
+    }
+    for (final element in mAnswersEntity) {
+      final model = AnswerModel()
+        ..id = element.id
+        ..questionId = element.questionId
+        ..answerText = language == 'en' ? element.answerTextEn : element.answerTextVi
+        ..gryPoint = element.gryPoint
+        ..ravPoint = element.ravPoint
+        ..hufPoint = element.hufPoint
+        ..slyPoint = element.slyPoint
+        ..imagePath = element.imagePath;
+      mAnswers.add(model);
+    }
+    late List<AnswerModel> answers;
+    late QuestionModel question;
     if (currentQuestionId > 1) {
       gryPoint = await userRef.getGryPoint() ?? 0;
       ravPoint = await userRef.getRavPoint() ?? 0;
@@ -50,7 +77,7 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
     }
     question = mQuestions.firstWhereOrNull((e) => e.id == currentQuestionId)!;
     answers = mAnswers.where((e) => e.questionId == question.id).toList();
-    final data = QuestionModel(
+    final data = QuestionViewModel(
         currentQuestionId: currentQuestionId, question: question, answers: answers, totalQuestion: mQuestions.length);
     emit(QuestionLoaded(data: data));
   }
@@ -71,7 +98,7 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
     if (event.currentQuestionId + 1 < mQuestions.length) {
       final question = mQuestions.firstWhereOrNull((e) => e.id == event.currentQuestionId + 1)!;
       final answers = mAnswers.where((e) => e.questionId == question.id).toList();
-      final data = QuestionModel(
+      final data = QuestionViewModel(
           currentQuestionId: event.currentQuestionId + 1, question: question, answers: answers, totalQuestion: mQuestions.length);
       emit(QuestionLoaded(data: data));
     } else {

@@ -50,7 +50,7 @@ class AnswerEntity extends CoreReadEntity {
 
   @override
   T fromJsonConvert<T extends CoreReadEntity>(Map<String, dynamic> json) {
-    var entity = AnswerEntity.fromJson(json);
+    final entity = AnswerEntity.fromJson(json);
     return entity as T;
   }
 

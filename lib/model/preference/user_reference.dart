@@ -1,5 +1,4 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../bloc/question/question_bloc.dart';
 import '../../constants.dart';
 
 class UserReference {
@@ -11,6 +10,7 @@ class UserReference {
   Future<int?> getCurrentQuestion() => getLocal(PreferenceKey.currentQuestion);
   Future<String?> getStatusQuiz() => getLocal(PreferenceKey.statusQuiz);
   Future<String?> getHouseResult() => getLocal(PreferenceKey.houseResult);
+  Future<String?> getLanguage() => getLocal(PreferenceKey.language);
 
   // set
   Future setGryPoint(double value) => setLocal(PreferenceKey.gryPoint, value);
@@ -20,6 +20,7 @@ class UserReference {
   Future setCurrentQuestion(int value) => setLocal(PreferenceKey.currentQuestion, value);
   Future setStatusQuiz(String value) => setLocal(PreferenceKey.statusQuiz, value);
   Future setHouseResult(String value) => setLocal(PreferenceKey.houseResult, value);
+  Future setLanguage(String value) => setLocal(PreferenceKey.language, value);
 
   Future setLocal(String key, dynamic value) async {
     final prefs = await SharedPreferences.getInstance();
@@ -38,7 +39,9 @@ class UserReference {
 
   Future<T?> getLocal<T>(String key) async {
     final prefs = await SharedPreferences.getInstance();
-    if(prefs.containsKey(key)) return prefs.get(key) as T?;
+    if (prefs.containsKey(key)) {
+      return prefs.get(key) as T?;
+    }
     return null;
   }
 }

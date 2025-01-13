@@ -34,7 +34,7 @@ class QuestionEntity extends CoreReadEntity {
 
   @override
   T fromJsonConvert<T extends CoreReadEntity>(Map<String, dynamic> json) {
-    var entity = QuestionEntity.fromJson(json);
+    final entity = QuestionEntity.fromJson(json);
     return entity as T;
   }
 

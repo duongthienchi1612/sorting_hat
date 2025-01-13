@@ -8,7 +8,7 @@ final class QuestionInitial extends QuestionState {}
 final class QuestionLoading extends QuestionState {}
 
 final class QuestionLoaded extends QuestionState {
-  final QuestionModel? data;
+  final QuestionViewModel? data;
   final String? houseName;
 
   QuestionLoaded({this.data, this.houseName});

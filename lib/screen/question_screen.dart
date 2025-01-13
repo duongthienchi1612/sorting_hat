@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:basic_utils/basic_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -65,7 +63,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                 ),
                                 alignment: Alignment.center,
                                 child: Text(
-                                  e.answerTextVi!,
+                                  e.answerText!,
                                   style: Theme.of(context).textTheme.displayLarge!.copyWith(
                                     shadows: [
                                       Shadow(
@@ -105,7 +103,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        question.questionTextVi!,
+                        question.questionText!,
                         textAlign: TextAlign.center,
                         style: textTheme.bodyLarge!.copyWith(
                           fontWeight: FontWeight.bold,
@@ -151,7 +149,7 @@ class _QuestionScreenState extends State<QuestionScreen> {
                                     ],
                                   ),
                                   child: Text(
-                                    e.answerTextVi!,
+                                    e.answerText!,
                                     textAlign: TextAlign.center,
                                     style: textTheme.bodyMedium,
                                   ),
