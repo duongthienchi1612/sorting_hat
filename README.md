@@ -6,7 +6,7 @@ The application allows answer quiz questions to be sorted into one of the Hogwar
 
 Home Screen
 
-<img src="https://github.com/user-attachments/assets/81f92023-15d7-4b9b-97b6-dad839315606" alt="HomeScreen" width="300">
+<img src="https://github.com/user-attachments/assets/cb383d3e-4c87-4b98-8829-829e1bda2831" alt="HomeScreen" width="300">
 
 Question Screen
 
