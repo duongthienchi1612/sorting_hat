@@ -17,5 +17,4 @@ Question Screen
 
 Result Screen
 
-
-<img src="https://github.com/user-attachments/assets/99c96b5c-5cd4-4aff-a046-76ca6274f28e" alt="Result Screen" width="300">
+<img src="https://github.com/user-attachments/assets/82350817-5c73-4722-8909-120e67a9ee82" alt="Result Screen" width="300">
