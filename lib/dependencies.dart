@@ -3,7 +3,7 @@ import 'package:path_provider/path_provider.dart';
 import 'bloc/bloc_dependencies.dart';
 import 'business/business_dependencies.dart';
 import 'model/model_dependencies.dart';
-import 'model/preference/user_reference.dart';
+import 'preference/user_reference.dart';
 import 'repository/repository_dependencies.dart';
 import 'screen/screen_dependencies.dart';
 

@@ -6,7 +6,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'business/master_data_business.dart';
 import 'constants.dart';
 import 'dependencies.dart';
-import 'model/preference/user_reference.dart';
+import 'preference/user_reference.dart';
 import 'utilities/database_factory.dart';
 
 class SplashScreen extends StatefulWidget {

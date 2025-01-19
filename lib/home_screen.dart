@@ -5,7 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'constants.dart';
 import 'dependencies.dart';
-import 'model/preference/user_reference.dart';
+import 'preference/user_reference.dart';
 import 'theme/app_colors.dart';
 
 class HomeScreen extends StatefulWidget {

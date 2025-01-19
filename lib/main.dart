@@ -3,7 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'constants.dart';
 import 'home_screen.dart';
-import 'model/preference/user_reference.dart';
+import 'preference/user_reference.dart';
 import 'screen/question_screen.dart';
 import 'screen/result_screen.dart';
 import 'splash_screen.dart';
