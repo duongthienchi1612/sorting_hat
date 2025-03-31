@@ -1,17 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
+import 'package:get_it/get_it.dart';
+import 'business/master_data_business.dart';
 import 'constants.dart';
-import 'home_screen.dart';
+import 'dependencies.dart';
 import 'preference/user_reference.dart';
+import 'home_screen.dart';
 import 'screen/question_screen.dart';
 import 'screen/result_screen.dart';
 import 'splash_screen.dart';
+import 'theme/app_colors.dart';
 import 'theme/app_text_theme.dart';
 
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp(initialLanguage: await UserReference().getLanguage() ?? 'en'));
+  
+  // Cấu hình để ẩn thanh điều hướng và thanh trạng thái
+  SystemChrome.setEnabledSystemUIMode(
+    SystemUiMode.immersiveSticky,
+    overlays: [],
+  );
+  
+  // Khóa hướng màn hình
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
+  
+  final initialLanguage = await UserReference().getLanguage() ?? 'en';
+  runApp(MyApp(initialLanguage: initialLanguage));
 }
 
 class MyApp extends StatefulWidget {
@@ -46,6 +65,57 @@ class _MyAppState extends State<MyApp> {
       supportedLocales: AppLocalizations.supportedLocales,
       theme: ThemeData(
         textTheme: AppTextTheme.textTheme,
+        // Enhance with more theme customization
+        colorScheme: ColorScheme.dark(
+          primary: AppColors.mainColor,
+          secondary: AppColors.goldenYellow,
+          surface: Colors.black,
+          background: Colors.black,
+        ),
+        scaffoldBackgroundColor: Colors.black,
+        // Customize buttons
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.mainColor,
+            foregroundColor: AppColors.redBorder,
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(25),
+              side: BorderSide(color: AppColors.darkBrown, width: 2),
+            ),
+            elevation: 5,
+          ),
+        ),
+        // Dialog theme
+        dialogTheme: DialogTheme(
+          backgroundColor: AppColors.mainColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+            side: BorderSide(color: AppColors.darkBrown, width: 2),
+          ),
+          elevation: 10,
+        ),
+        // Icon theme
+        iconTheme: IconThemeData(
+          color: AppColors.mainColor,
+          size: 24,
+        ),
+        // Text button theme
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            foregroundColor: AppColors.redBorder,
+            textStyle: TextStyle(
+              fontFamily: 'Caudex',
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        // Customize scrollbars
+        scrollbarTheme: ScrollbarThemeData(
+          thumbColor: MaterialStateProperty.all(AppColors.mainColor.withOpacity(0.6)),
+          thickness: MaterialStateProperty.all(6),
+          radius: const Radius.circular(10),
+        ),
       ),
       initialRoute: '/',
       routes: {
