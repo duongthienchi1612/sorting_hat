@@ -1,8 +1,8 @@
 # sorting_hat
 
-Sorting hat Hogwarts - Harry Potter
+Sorting Hat Hogwarts - Harry Potter
 
-The application allows answer quiz questions to be sorted into one of the Hogwarts houses from the Harry Potter universe.
+The application allows users to sort quiz questions into one of the Hogwarts houses from the Harry Potter universe.
 
 Home Screen
 
